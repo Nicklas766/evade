@@ -1,19 +1,25 @@
 #include "pch.h"
 #include "GameEngine.h"
 
+
 GameEngine* GameEngine::s_Instance = 0;
 
 GameEngine::GameEngine()
 {
-	TextureHelper* textureHelper = new TextureHelper();
+
 }
 
 
 GameEngine::~GameEngine()
 {
+
 }
 
-
+void GameEngine::add(SpriteObject* sprite, string texturePath) 
+{
+	TextureHelper::Instance()->loadTexture(texturePath, renderer, sprite->getId());
+	spriteObjects.push_back(sprite);
+}
 
 // Init the game as we cant
 void GameEngine::setup(const char* title, int xPos, int yPos, int width, int height, bool fullscreen) throw(runtime_error)
@@ -36,6 +42,8 @@ void GameEngine::setup(const char* title, int xPos, int yPos, int width, int hei
 
 	(renderer == 0) ? throw runtime_error("CONCERNS RENDERER: Initialisation failed") : 1;
 	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+
+
 }
 
 void GameEngine::run(int FPS) {
@@ -56,18 +64,32 @@ void GameEngine::run(int FPS) {
 			SDL_Delay((int)(DELAY_TIME - frameTime));
 		}
 
-		SDL_Delay(5000);
+		render();
+
+
+		SDL_Delay(2000);
 		GameEngine::Instance()->quit();
 		GameEngine::Instance()->clean();
 	}
 }
 
+void GameEngine::render()
+{
+	SDL_RenderClear(renderer);
 
+	for (vector<SpriteObject*>::size_type i = 0; i != spriteObjects.size(); i++)
+	{
+		spriteObjects[i]->draw(renderer);
+	}
+
+	SDL_RenderPresent(renderer);
+}
 
 
 void GameEngine::clean()
 {
 	std::cout << "Cleaning game ...\n";
+
 
 	SDL_DestroyWindow(window);
 	SDL_DestroyRenderer(renderer);

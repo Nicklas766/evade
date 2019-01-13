@@ -7,6 +7,8 @@
 #include "SDL.h"
 
 #include "TextureHelper.h"
+#include "SpriteObject.h"
+
 
 using namespace std;
 
@@ -32,14 +34,11 @@ public:
 	void setup(const char* title, int xpos, int ypos, int width, int height, bool fullscreen) throw(runtime_error);
 	void run(int FPS);
 
-	TextureHelper* getTextureHelper() {
-		return textureHelper;
-	}
+	void add(SpriteObject* sprite, string texturePath);
 
-	SDL_Renderer* getRenderer() {
-		return renderer;
-	}
+	SDL_Renderer* getRenderer() const { return renderer; }
 
+	void render();
 	void quit();
 	void clean();
 
@@ -57,7 +56,7 @@ private:
 	SDL_Window* window;
 	SDL_Renderer* renderer;
 
-	TextureHelper* textureHelper; // uses a texture helper to simplify texture handling
+	vector<SpriteObject*> spriteObjects;
 };
 
 typedef GameEngine GameEngine;

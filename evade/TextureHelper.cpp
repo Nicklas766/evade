@@ -2,6 +2,8 @@
 #include "TextureHelper.h"
 
 
+TextureHelper* TextureHelper::s_Instance = 0;
+
 TextureHelper::TextureHelper()
 {
 }
@@ -23,23 +25,24 @@ bool TextureHelper::loadTexture(string fileName, SDL_Renderer* renderer, string 
 	SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, tmpSurface);
 	SDL_FreeSurface(tmpSurface);
 
-	if (texture == 0)
+	if (texture != 0)
 	{
-		return false;
+		textureCollection[id] = texture;
+		return true;
 	}
+	return false;
 
-	textureCollection[id] = texture;
-	return true;
+
 }
 
 
-void TextureHelper::draw(string id, int xPos, int yPos, int width, int height, SDL_Renderer* renderer)
+void TextureHelper::draw(string id, int xPos, int yPos, int width, int height, SDL_Renderer* renderer, SDL_RendererFlip flip)
 {
 	SDL_Rect srcRect;
 	SDL_Rect destRect;
 
-	srcRect.x = width;
-	srcRect.y = height;
+	srcRect.x = width * 1;
+	srcRect.y = height * (1 - 1);
 
 	srcRect.w = destRect.w = width;
 	srcRect.h = destRect.h = height;
@@ -47,7 +50,7 @@ void TextureHelper::draw(string id, int xPos, int yPos, int width, int height, S
 	destRect.x = xPos;
 	destRect.y = yPos;
 
-	SDL_RenderCopyEx(renderer, textureCollection[id], &srcRect, &destRect, 0, 0, SDL_FLIP_HORIZONTAL);
+	SDL_RenderCopyEx(renderer, textureCollection[id], &srcRect, &destRect, 0, 0, flip);
 }
 
 void TextureHelper::removeFromTextureCollection(string id) 

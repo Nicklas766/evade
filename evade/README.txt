@@ -10,6 +10,10 @@ Man kan skjuta och därav döda enemies
 När man kolliderar men något så ökar något annat, man förlorar poäng
 
 
+
+
+Add funktion säger helt enkelt "Ge mig din subklass från SpriteObject och en path till bilden, så fixar jag resten"
+
 Programmets krav på placering
 -------------------------------
 1. Alla bilder behöver ligga i /assets
