@@ -17,6 +17,8 @@ private:
 	Monster(string id, int xPos, int yPos, int width, int height) : SpriteObject(id, xPos, yPos, width, height) {};
 	~Monster() { cout << "I can clean stuff here if needed" << endl; };
 
+	bool hasTouchedBottom = false;
+
 };
 
 #endif

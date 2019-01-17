@@ -16,8 +16,23 @@ void Monster::collided(bool collided, SpriteObject* other) {
 }
 
 void Monster::behaviour() {
+	
+	if (hasTouchedBottom == false) {
+		yPos += 5;
+	}
 
+	if (hasTouchedBottom == true) {
+		yPos -= 5;
+	}
 
+	if (yPos < 10)
+	{
+		hasTouchedBottom = false;
+	}
+
+	if (yPos > 410){
+		hasTouchedBottom = true;
+	}
 }
 
 

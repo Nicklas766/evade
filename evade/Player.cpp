@@ -12,27 +12,22 @@ void Player::update() {
 
 void Player::collided(bool collided, SpriteObject* other) {
 
-	if (collided)
-		if (Monster* s = dynamic_cast<Monster*>(other))
-			cout << "I AM COLLIDING WITH MONSTER!!!!" << endl;
+	if (collided) 
+		if (Monster* s = dynamic_cast<Monster*>(other)) {
+			if ((other->getStats().y + other->getStats().height) > yPos + height)
+				yPos = yPos + 5;
 
+			if ((other->getStats().y + other->getStats().height) < yPos + height)
+				yPos = yPos - 5;
+		}
+	
 }
 
 void Player::behaviour() {
-
-	if (InputHelper::getInstance()->isKeyDown(SDL_SCANCODE_SPACE)) {
-		if (InputHelper::getInstance()->isKeyDown(SDL_SCANCODE_RIGHT))
-		{
-			xPos = xPos + 5;
-		}
-
-		if (InputHelper::getInstance()->isKeyDown(SDL_SCANCODE_LEFT))
-		{
-			xPos = xPos - 5;
-		}
-	}
-
-
+	if (InputHelper::getInstance()->isKeyDown(SDL_SCANCODE_RIGHT))	 { xPos = xPos + 5; }
+	if (InputHelper::getInstance()->isKeyDown(SDL_SCANCODE_LEFT))	 { xPos = xPos - 5; }
+	if (InputHelper::getInstance()->isKeyDown(SDL_SCANCODE_UP))		 { yPos = yPos - 5; }
+	if (InputHelper::getInstance()->isKeyDown(SDL_SCANCODE_DOWN))    { yPos = yPos + 5; }
 }
 
 

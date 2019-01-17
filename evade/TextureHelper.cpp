@@ -40,8 +40,8 @@ void TextureHelper::draw(string id, int xPos, int yPos, int width, int height, S
 	SDL_Rect srcRect;
 	SDL_Rect destRect;
 
-	srcRect.x = width * 1;
-	srcRect.y = height * (1 - 1);
+	srcRect.x = 0;
+	srcRect.y = 0;
 
 	srcRect.w = destRect.w = width;
 	srcRect.h = destRect.h = height;
