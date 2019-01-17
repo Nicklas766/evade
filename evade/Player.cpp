@@ -1,7 +1,6 @@
 #include "pch.h"
 #include "Player.h"
-#include <iostream>
-
+#include "Monster.h"
 
 Player* Player::getInstance(string id, int xPos, int yPos, int width, int height) {
 	return new Player(id, xPos, yPos, width, height);
@@ -9,13 +8,14 @@ Player* Player::getInstance(string id, int xPos, int yPos, int width, int height
 
 void Player::update() {
 	behaviour();
+}
 
-	
-	if (xPos < 0)
-		xPos = xPos + 1;
+void Player::collided(bool collided, SpriteObject* other) {
 
-	if (xPos > 40)
-		xPos = xPos + 1;
+	if (collided)
+		if (Monster* s = dynamic_cast<Monster*>(other))
+			cout << "I AM COLLIDING WITH MONSTER!!!!" << endl;
+
 }
 
 void Player::behaviour() {

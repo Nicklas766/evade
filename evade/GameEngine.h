@@ -26,6 +26,7 @@ public:
 	void cleanEngine();
 	void quit();
 
+	bool isCollided(SpriteObject* sprite1, SpriteObject* sprite2);
 	// Methods for setting up game
 	void setup(const char* title, int xpos, int ypos, int width, int height, bool fullscreen) throw(runtime_error);
 	void run(int FPS);

@@ -12,6 +12,7 @@ public:
 	static Player* getInstance(string id, int xPos, int yPos, int width, int height);
 	void update();
 	void behaviour();
+	void collided(bool collided, SpriteObject* other);
 
 private:
 	Player(string id, int xPos, int yPos, int width, int height) : SpriteObject(id, xPos, yPos, width, height) {};

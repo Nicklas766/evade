@@ -87,12 +87,36 @@ void GameEngine::run(int FPS) {
 	}
 }
 
+// A simple collision detection
+bool GameEngine::isCollided(SpriteObject* sprite1, SpriteObject* sprite2)
+{
+
+	Stats pos1 = sprite1->getStats();
+	Stats pos2 = sprite2->getStats();
+
+	if (pos1.x < pos2.x + pos2.width &&
+		pos1.x + pos1.width > pos2.x &&
+		pos1.y < pos2.y + pos2.height &&
+		pos1.height + pos1.y > pos2.y) {
+		return true;
+	}
+
+
+	return false;
+}
+
 void GameEngine::render()
 {
 	SDL_RenderClear(renderer);
 
 	for (SpriteObject* sprite : spriteObjects)
 	{
+		// Check for collision and let the spriteobject know
+		for (SpriteObject* otherSprite : spriteObjects) {
+			if (sprite != otherSprite && isCollided(sprite, otherSprite))
+				sprite->collided(true, otherSprite);
+		}
+
 		sprite->update();
 		sprite->draw(renderer);
 	}
