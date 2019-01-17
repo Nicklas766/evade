@@ -10,6 +10,7 @@ class Player : public SpriteObject
 public:
 	static Player* getInstance(string id, int xPos, int yPos, int width, int height);
 	void update();
+	void behaviour();
 	void destroy();
 
 private:

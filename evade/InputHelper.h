@@ -11,29 +11,29 @@ public:
 	// This makes the InputHelper a singleton
 	static InputHelper* getInstance()
 	{
-		if (static_instance != nullptr)
+		if (static_instance == nullptr)
 		{
-			return static_instance;
+			static_instance = new InputHelper();
 		}
-		static_instance = new InputHelper();
 		return static_instance;
 	}
 
-	const Uint8* keystates;
 	bool isKeyDown(SDL_Scancode key);
-
-	void update();
+	void handleEvent();
 	void clean();
+	
 
 private:
 	InputHelper() {};
 	~InputHelper() {};
-
-	void onKeyDown();
-	void onKeyUp();
-
-
 	static InputHelper* static_instance;
+
+	enum KEY : const Uint8 {
+		down = 1
+	};
+
+	void getKeyboardState();
+	const Uint8* keyboardState;
 };
 
 }

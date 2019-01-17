@@ -12,6 +12,7 @@ public:
 
 	void draw(SDL_Renderer* renderer);
 	virtual void update() = 0;
+	virtual void behaviour() = 0;
 	virtual void destroy() = 0;
 	virtual ~SpriteObject() {};
 

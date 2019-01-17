@@ -56,20 +56,23 @@ void GameEngine::run(int FPS) {
 		}
 
 
-		InputHelper::getInstance()->update();
+		InputHelper::getInstance()->handleEvent();
 
-		for (SpriteObject* obj : spriteObjects)
-		{
-			obj->update();
-		}
-
+		// Pauses the game
 		if (InputHelper::getInstance()->isKeyDown(SDL_SCANCODE_ESCAPE))
 		{
-			cleanQuit();
+			bool paused = true;
+			while (paused) {
+				InputHelper::getInstance()->handleEvent();
+				if (InputHelper::getInstance()->isKeyDown(SDL_SCANCODE_RETURN))
+				{
+					paused = false;
+				}
+			}
 		}
+
 		render();
 		
-
 		// SDL_Delay(2000);
 		// cleanQuit();
 	}
@@ -78,9 +81,10 @@ void GameEngine::run(int FPS) {
 void GameEngine::render()
 {
 	SDL_RenderClear(renderer);
-	
+
 	for (SpriteObject* obj : spriteObjects)
 	{
+		obj->update();
 		obj->draw(renderer);
 	}
 
@@ -93,7 +97,8 @@ void GameEngine::cleanQuit()
 	std::cout << "Stopping game loop ...\n";
 	isGameRunning = false;
 
-	// InputHelper::getInstance()->clean();
+
+	InputHelper::getInstance()->clean();
 
 	std::cout << "Cleaning game ...\n";
 	SDL_DestroyWindow(window);
