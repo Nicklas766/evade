@@ -6,35 +6,34 @@
 
 using namespace std;
 
+namespace CoolEngine {
+
 class TextureHelper
 {
 public:
 
-	// This makes the TextureHelper a singleton
-	static TextureHelper* Instance()
+	// Since we want the helper to be aware of current sprites
+	static TextureHelper* getInstance()
 	{
-		if (s_Instance == NULL)
+		if (staticInstance != nullptr)
 		{
-			s_Instance = new TextureHelper();
-			return s_Instance;
+			return staticInstance;
 		}
-		return s_Instance;
+		staticInstance = new TextureHelper();
+		return staticInstance;
 	}
-
 
 	bool loadTexture(string fileName, SDL_Renderer* renderer, string id);
 	void removeFromTextureCollection(string id);
-
-	map<string, SDL_Texture*> textureCollection;
-
 	void draw(string id, int xPos, int yPos, int width, int height, SDL_Renderer* renderer, SDL_RendererFlip flip = SDL_FLIP_NONE);
 
 private:
-	TextureHelper();
-	~TextureHelper();
-	static TextureHelper* s_Instance;
+	TextureHelper() {};
+	~TextureHelper() {};
+	static TextureHelper* staticInstance;
+	map<string, SDL_Texture*> textureCollection;
 };
-
+}
 
 
 #endif

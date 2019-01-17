@@ -3,6 +3,9 @@
 
 #include "TextureHelper.h"
 
+
+namespace CoolEngine {
+
 class SpriteObject
 {
 public:
@@ -12,22 +15,16 @@ public:
 	virtual void destroy() = 0;
 	virtual ~SpriteObject() {};
 
-	string getId() {
-		return id;
-	}
+	string getId() { return id; }
 
 protected:
-
 	SpriteObject(string id, int xPos, int yPos, int width, int height) : id(id), xPos(xPos), yPos(yPos), width(width), height(height) {};
 
 	string id;
-
-	int xPos;
-	int yPos;
-	int width;
-	int height;
-
+	int xPos, yPos;
+	int width, height;
 };
 
+}
 #endif
 

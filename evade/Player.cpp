@@ -7,7 +7,11 @@ Player* Player::getInstance(string id, int xPos, int yPos, int width, int height
 }
 
 void Player::update() {
-	
+	if (InputHelper::getInstance()->isKeyDown(SDL_SCANCODE_RIGHT))
+	{
+		xPos = xPos + 20;
+		yPos = yPos + 20;
+	}
 }
 
 void Player::destroy() {

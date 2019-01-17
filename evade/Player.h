@@ -1,7 +1,9 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 #include "SpriteObject.h"
+#include "InputHelper.h"
 
+using namespace CoolEngine;
 
 class Player : public SpriteObject
 {

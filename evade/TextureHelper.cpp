@@ -1,17 +1,10 @@
 #include "pch.h"
 #include "TextureHelper.h"
 
+using namespace CoolEngine;
 
-TextureHelper* TextureHelper::s_Instance = 0;
+TextureHelper* TextureHelper::staticInstance = 0;
 
-TextureHelper::TextureHelper()
-{
-}
-
-
-TextureHelper::~TextureHelper()
-{
-}
 
 bool TextureHelper::loadTexture(string fileName, SDL_Renderer* renderer, string id)
 {

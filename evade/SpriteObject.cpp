@@ -1,12 +1,9 @@
 #include "pch.h"
 #include "SpriteObject.h"
 
-
-
-
-
+using namespace CoolEngine;
 
 
 void SpriteObject::draw(SDL_Renderer* renderer) {
-	TextureHelper::Instance()->draw(id, xPos, yPos, width, height, renderer, SDL_FLIP_NONE);
+	TextureHelper::getInstance()->draw(id, xPos, yPos, width, height, renderer, SDL_FLIP_NONE);
 }

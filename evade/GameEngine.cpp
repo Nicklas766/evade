@@ -1,23 +1,15 @@
 #include "pch.h"
 #include "GameEngine.h"
+#include "InputHelper.h"
 
+using namespace CoolEngine;
 
-GameEngine* GameEngine::s_Instance = 0;
+GameEngine* GameEngine::static_instance = 0;
 
-GameEngine::GameEngine()
-{
-
-}
-
-
-GameEngine::~GameEngine()
-{
-
-}
 
 void GameEngine::add(SpriteObject* sprite, string texturePath) 
 {
-	TextureHelper::Instance()->loadTexture(texturePath, renderer, sprite->getId());
+	TextureHelper::getInstance()->loadTexture(texturePath, renderer, sprite->getId());
 	spriteObjects.push_back(sprite);
 }
 
@@ -43,17 +35,16 @@ void GameEngine::setup(const char* title, int xPos, int yPos, int width, int hei
 	(renderer == 0) ? throw runtime_error("CONCERNS RENDERER: Initialisation failed") : 1;
 	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
 
-
 }
 
 void GameEngine::run(int FPS) {
-	m_gameIsRunning = true;
+	isGameRunning = true;
 
 	// Fixed frames per second
 	Uint32 frameStart, frameTime;
 	const float DELAY_TIME = 1000.0f / FPS;
 
-	while (m_gameIsRunning) {
+	while (isGameRunning) {
 
 		frameStart = SDL_GetTicks();
 
@@ -64,40 +55,48 @@ void GameEngine::run(int FPS) {
 			SDL_Delay((int)(DELAY_TIME - frameTime));
 		}
 
+
+		InputHelper::getInstance()->update();
+
+		for (SpriteObject* obj : spriteObjects)
+		{
+			obj->update();
+		}
+
+		if (InputHelper::getInstance()->isKeyDown(SDL_SCANCODE_ESCAPE))
+		{
+			cleanQuit();
+		}
 		render();
+		
 
-
-		SDL_Delay(2000);
-		GameEngine::Instance()->quit();
-		GameEngine::Instance()->clean();
+		// SDL_Delay(2000);
+		// cleanQuit();
 	}
 }
 
 void GameEngine::render()
 {
 	SDL_RenderClear(renderer);
-
-	for (vector<SpriteObject*>::size_type i = 0; i != spriteObjects.size(); i++)
+	
+	for (SpriteObject* obj : spriteObjects)
 	{
-		spriteObjects[i]->draw(renderer);
+		obj->draw(renderer);
 	}
 
 	SDL_RenderPresent(renderer);
 }
 
 
-void GameEngine::clean()
+void GameEngine::cleanQuit()
 {
+	std::cout << "Stopping game loop ...\n";
+	isGameRunning = false;
+
+	// InputHelper::getInstance()->clean();
+
 	std::cout << "Cleaning game ...\n";
-
-
 	SDL_DestroyWindow(window);
 	SDL_DestroyRenderer(renderer);
 	SDL_Quit();
-}
-
-void GameEngine::quit()
-{
-	std::cout << "Stopping game loop ...\n";
-	m_gameIsRunning = false;
 }
