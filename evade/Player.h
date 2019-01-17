@@ -12,11 +12,10 @@ public:
 	static Player* getInstance(string id, int xPos, int yPos, int width, int height);
 	void update();
 	void behaviour();
-	void clean();
 
 private:
 	Player(string id, int xPos, int yPos, int width, int height) : SpriteObject(id, xPos, yPos, width, height) {};
-	~Player() {};
+	~Player() { cout << "I can clean stuff here if needed" << endl; };
 
 };
 

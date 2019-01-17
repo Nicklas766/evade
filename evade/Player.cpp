@@ -36,8 +36,3 @@ void Player::behaviour() {
 }
 
 
-void Player::clean() {
-	
-}
-
-

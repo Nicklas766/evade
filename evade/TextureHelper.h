@@ -16,7 +16,7 @@ public:
 	friend SingletonWrapper<TextureHelper>;
 
 	bool loadTexture(string fileName, SDL_Renderer* renderer, string id);
-	void removeFromTextureCollection(string id);
+	void removeTexture(string id);
 	void draw(string id, int xPos, int yPos, int width, int height, SDL_Renderer* renderer, SDL_RendererFlip flip = SDL_FLIP_NONE);
 
 

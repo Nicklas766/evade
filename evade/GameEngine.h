@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <vector>
+#include <map>
 #include "SDL.h"
 
 #include "SingletonWrapper.h"
@@ -29,6 +30,7 @@ public:
 	void setup(const char* title, int xpos, int ypos, int width, int height, bool fullscreen) throw(runtime_error);
 	void run(int FPS);
 	void add(SpriteObject* sprite, string texturePath);
+	void remove(string texturePath);
 
 	// Methods during the game
 	void render();

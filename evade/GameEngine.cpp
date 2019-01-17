@@ -8,18 +8,32 @@ GameEngine::~GameEngine() {
 	// Make sure all the sprite objects are cleaned
 	for (SpriteObject* sprite : spriteObjects) {
 		cout << "CALLING CLEANING SPRITE" << endl << endl;
-		sprite->clean();
 		delete sprite;
 	}
-
+	spriteObjects.clear();
 }
-
-
 
 void GameEngine::add(SpriteObject* sprite, string texturePath) 
 {
 	TextureHelper::getInstance()->loadTexture(texturePath, renderer, sprite->getId());
 	spriteObjects.push_back(sprite);
+}
+
+// Really bad removal code with vector
+void GameEngine::remove(string textureId)
+{
+	int index;
+	for (int i = 0; i < spriteObjects.size(); i++) {
+		if (spriteObjects[i]->getId() == textureId) {
+			index = i;
+			break;
+		}
+	}
+	// delete sprite and remove from vector
+	delete spriteObjects[index];
+	spriteObjects.erase(spriteObjects.begin() + index);
+
+	TextureHelper::getInstance()->removeTexture(textureId);
 }
 
 // Init the game as we cant
@@ -77,10 +91,10 @@ void GameEngine::render()
 {
 	SDL_RenderClear(renderer);
 
-	for (SpriteObject* obj : spriteObjects)
+	for (SpriteObject* sprite : spriteObjects)
 	{
-		obj->update();
-		obj->draw(renderer);
+		sprite->update();
+		sprite->draw(renderer);
 	}
 
 	SDL_RenderPresent(renderer);

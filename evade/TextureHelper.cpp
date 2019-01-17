@@ -4,7 +4,7 @@
 using namespace CoolEngine;
 
 TextureHelper::~TextureHelper() {
-
+	// -----------------MEMORY LEAKAGEEE!!!
 	map<string, SDL_Texture*>::iterator itr = textureCollection.begin();
 	while (itr != textureCollection.end()) {
 		cout << "ERASING LOADED SDL_TEXTURE FROM MAP!" << endl;
@@ -52,7 +52,7 @@ void TextureHelper::draw(string id, int xPos, int yPos, int width, int height, S
 	SDL_RenderCopyEx(renderer, textureCollection[id], &srcRect, &destRect, 0, 0, flip);
 }
 
-void TextureHelper::removeFromTextureCollection(string id) 
+void TextureHelper::removeTexture(string id)
 {
 	textureCollection.erase(id);
 }
