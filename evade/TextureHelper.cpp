@@ -3,9 +3,16 @@
 
 using namespace CoolEngine;
 
-void TextureHelper::clean() {
+TextureHelper::~TextureHelper() {
 
-}
+	map<string, SDL_Texture*>::iterator itr = textureCollection.begin();
+	while (itr != textureCollection.end()) {
+		cout << "ERASING LOADED SDL_TEXTURE FROM MAP!" << endl;
+		itr = textureCollection.erase(itr);
+	}
+
+};
+
 
 bool TextureHelper::loadTexture(string fileName, SDL_Renderer* renderer, string id)
 {
@@ -25,8 +32,6 @@ bool TextureHelper::loadTexture(string fileName, SDL_Renderer* renderer, string 
 		return true;
 	}
 	return false;
-
-
 }
 
 

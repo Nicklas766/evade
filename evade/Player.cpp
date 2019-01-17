@@ -36,10 +36,8 @@ void Player::behaviour() {
 }
 
 
-void Player::destroy() {
+void Player::clean() {
 	
 }
 
-Player::~Player()
-{
-}
+

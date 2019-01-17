@@ -14,12 +14,11 @@ public:
 
 	bool isKeyDown(SDL_Scancode key);
 	void handleEvent();
-	void clean();
 	
 
 private:
 	InputHelper() {};
-	~InputHelper() {};
+	~InputHelper();
 
 	enum KEY : const Uint8 {
 		down = 1

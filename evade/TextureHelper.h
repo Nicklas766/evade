@@ -18,11 +18,13 @@ public:
 	bool loadTexture(string fileName, SDL_Renderer* renderer, string id);
 	void removeFromTextureCollection(string id);
 	void draw(string id, int xPos, int yPos, int width, int height, SDL_Renderer* renderer, SDL_RendererFlip flip = SDL_FLIP_NONE);
-	void clean();
+
 
 private:
 	TextureHelper() {};
-	~TextureHelper() {};
+
+	// Erases the contents of map<string, SDL_Texture*>
+	~TextureHelper();
 	map<string, SDL_Texture*> textureCollection;
 };
 }

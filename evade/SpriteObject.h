@@ -13,7 +13,9 @@ public:
 	void draw(SDL_Renderer* renderer);
 	virtual void update() = 0;
 	virtual void behaviour() = 0;
-	virtual void destroy() = 0;
+
+	// Called before object removed
+	virtual void clean() = 0;
 	virtual ~SpriteObject() {};
 
 	string getId() { return id; }

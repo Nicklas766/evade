@@ -4,11 +4,10 @@
 
 using namespace CoolEngine;
 
-void InputHelper::clean() {
-	cout << "Clean inputhelper......." << endl;
-	delete keyboardState;
+InputHelper::~InputHelper() {
+	if (keyboardState != nullptr)
+		delete keyboardState;
 }
-
 
 bool InputHelper::isKeyDown(SDL_Scancode key)
 {

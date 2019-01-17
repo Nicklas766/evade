@@ -21,11 +21,9 @@ class GameEngine : public SingletonWrapper<GameEngine>
 public:
 	friend SingletonWrapper<GameEngine>;
 
-	~GameEngine() {};
-	void destroyAllInstances();
-	void clean();
+	~GameEngine();
+	void cleanEngine();
 	void quit();
-
 
 	// Methods for setting up game
 	void setup(const char* title, int xpos, int ypos, int width, int height, bool fullscreen) throw(runtime_error);
@@ -33,7 +31,6 @@ public:
 	void add(SpriteObject* sprite, string texturePath);
 
 	// Methods during the game
-	void preBuiltPauseFeature();
 	void render();
 	SDL_Renderer* getRenderer() const { return renderer; }
 

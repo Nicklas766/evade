@@ -17,8 +17,6 @@ public:
 		}
 		return static_instance;
 	}
-	
-	virtual void clean() = 0;
 
 	void destroyInstance() {
 		std::cout << "Deleting instance" << std::endl;

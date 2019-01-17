@@ -1,5 +1,6 @@
 #ifndef PLAYER_H
 #define PLAYER_H
+
 #include "SpriteObject.h"
 #include "InputHelper.h"
 
@@ -11,11 +12,11 @@ public:
 	static Player* getInstance(string id, int xPos, int yPos, int width, int height);
 	void update();
 	void behaviour();
-	void destroy();
+	void clean();
 
 private:
 	Player(string id, int xPos, int yPos, int width, int height) : SpriteObject(id, xPos, yPos, width, height) {};
-	~Player();
+	~Player() {};
 
 };
 
