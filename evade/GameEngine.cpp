@@ -19,24 +19,20 @@ void GameEngine::add(SpriteObject* sprite, string texturePath)
 	spriteObjects.push_back(sprite);
 }
 
-// Really bad removal code with vector
+// Really bad removal code with vector, will mark the Sprite to be removed before update
 void GameEngine::remove(string textureId)
 {
-	int index;
 	for (int i = 0; i < spriteObjects.size(); i++) {
 		if (spriteObjects[i]->getId() == textureId) {
-			index = i;
-			break;
+			// delete sprite and remove from vector
+			spriteObjects[i]->shouldBeRemoved = true;
 		}
 	}
-	// delete sprite and remove from vector
-	delete spriteObjects[index];
-	spriteObjects.erase(spriteObjects.begin() + index);
-
-	TextureHelper::getInstance()->removeTexture(textureId);
+	
+	
 }
 
-// Init the game as we cant
+// Init the game
 void GameEngine::setup(const char* title, int xPos, int yPos, int width, int height, bool fullscreen) throw(runtime_error)
 {
 	int flags = (fullscreen) ? SDL_WINDOW_FULLSCREEN : 0;
@@ -78,12 +74,9 @@ void GameEngine::run(int FPS) {
 			SDL_Delay((int)(DELAY_TIME - frameTime));
 		}
 
-
 		InputHelper::getInstance()->handleEvent();
+		garbageCollect();
 		render();
-		
-		// SDL_Delay(2000);
-		// cleanQuit();
 	}
 }
 
@@ -105,10 +98,24 @@ bool GameEngine::isCollided(SpriteObject* sprite1, SpriteObject* sprite2)
 	return false;
 }
 
+// Delete, remove texture, erase from spriteObjects if "->shouldBeRemoved"
+void GameEngine::garbageCollect() {
+	int count = 0;
+	for (SpriteObject* sprite : spriteObjects) {
+		if (sprite->shouldBeRemoved) {
+			TextureHelper::getInstance()->removeTexture(sprite->getId());
+			delete sprite;
+			spriteObjects.erase(spriteObjects.begin() + count);
+		}
+		count++;
+	}
+
+}
+
 void GameEngine::render()
 {
 	SDL_RenderClear(renderer);
-
+	
 	for (SpriteObject* sprite : spriteObjects)
 	{
 		// Check for collision and let the spriteobject know
@@ -120,6 +127,7 @@ void GameEngine::render()
 		sprite->update();
 		sprite->draw(renderer);
 	}
+
 
 	SDL_RenderPresent(renderer);
 }

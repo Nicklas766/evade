@@ -23,6 +23,7 @@ public:
 	friend SingletonWrapper<GameEngine>;
 
 	~GameEngine();
+	void garbageCollect();
 	void cleanEngine();
 	void quit();
 

@@ -22,9 +22,7 @@ public:
 
 private:
 	TextureHelper() {};
-
-	// Erases the contents of map<string, SDL_Texture*>
-	~TextureHelper();
+	~TextureHelper(); // Erases the contents of map<string, SDL_Texture*>
 	map<string, SDL_Texture*> textureCollection;
 };
 }

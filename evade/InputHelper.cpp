@@ -4,10 +4,14 @@
 
 using namespace CoolEngine;
 
-InputHelper::~InputHelper() {
-	if (keyboardState != nullptr)
-		delete keyboardState;
-}
+InputHelper::InputHelper() {
+	Position p;
+	p.x = 0;
+	p.y = 0;
+
+	mousePosition = p;
+	mouseBtnState = vector<bool>(3, false);
+};
 
 bool InputHelper::isKeyDown(SDL_Scancode key)
 {
@@ -35,6 +39,7 @@ void InputHelper::handleEvent()
 			GameEngine::getInstance()->quit(); 
 			break;
 
+
 		case SDL_KEYDOWN: 
 			getKeyboardState();
 			break;
@@ -43,8 +48,40 @@ void InputHelper::handleEvent()
 			getKeyboardState();
 			break;
 
+		case SDL_MOUSEBUTTONDOWN:
+			onMouseButtonClickOrRelease(event);
+			break;
+
+		case SDL_MOUSEBUTTONUP:
+			onMouseButtonClickOrRelease(event);
+			break;
+
+		case SDL_MOUSEMOTION:
+			onMouseMove(event);
+			break;
+
 		default:
 			break;
 		}
 	}
+}
+
+// Mushantering för tillämpningsprogrammeraren, eftersom det stod i kravet
+void InputHelper::resetMouseBthState()
+{
+	mouseBtnState = vector<bool>(3, false);
+}
+
+// the "!" makes sure it is the opposite each time
+void InputHelper::onMouseButtonClickOrRelease(SDL_Event& event)
+{
+	if (event.button.button == SDL_BUTTON_RIGHT) { mouseBtnState[RIGHT]  = !mouseBtnState[RIGHT];  }
+	if (event.button.button == SDL_BUTTON_LEFT)  { mouseBtnState[LEFT]	 = !mouseBtnState[LEFT];   }
+	if (event.button.button == SDL_BUTTON_MIDDLE){ mouseBtnState[MIDDLE] = !mouseBtnState[MIDDLE]; }
+}
+
+void InputHelper::onMouseMove(const SDL_Event& event)
+{
+	mousePosition.x = event.motion.x;
+	mousePosition.y = event.motion.y;
 }

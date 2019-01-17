@@ -28,6 +28,14 @@ void Player::behaviour() {
 	if (InputHelper::getInstance()->isKeyDown(SDL_SCANCODE_LEFT))	 { xPos = xPos - 5; }
 	if (InputHelper::getInstance()->isKeyDown(SDL_SCANCODE_UP))		 { yPos = yPos - 5; }
 	if (InputHelper::getInstance()->isKeyDown(SDL_SCANCODE_DOWN))    { yPos = yPos + 5; }
+
+	// Left is down it will move with the mouse
+	if (InputHelper::getInstance()->getMouseBtnState()[LEFT]) {
+		Position pos = InputHelper::getInstance()->getMousePosition();
+		xPos = pos.x;
+		yPos = pos.y;
+	}
+
 }
 
 

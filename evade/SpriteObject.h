@@ -23,6 +23,10 @@ public:
 
 	string getId() { return id; }
 
+	// For game loop to know wether or not to delete | not private since
+	// I thought it made sense in this case only
+	bool shouldBeRemoved = false;
+
 	Stats getStats() {
 		Stats p;
 		p.x = xPos;
