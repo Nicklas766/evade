@@ -1,22 +1,16 @@
 #ifndef INPUTHELPER_H
 #define INPUTHELPER_H
 #include <SDL.h>
+#include <iostream>
+
+#include "SingletonWrapper.h"
 
 namespace CoolEngine { 
 
-class InputHelper
+class InputHelper : public SingletonWrapper<InputHelper>
 {
 public:
-
-	// This makes the InputHelper a singleton
-	static InputHelper* getInstance()
-	{
-		if (static_instance == nullptr)
-		{
-			static_instance = new InputHelper();
-		}
-		return static_instance;
-	}
+	friend SingletonWrapper<InputHelper>;
 
 	bool isKeyDown(SDL_Scancode key);
 	void handleEvent();
@@ -26,7 +20,6 @@ public:
 private:
 	InputHelper() {};
 	~InputHelper() {};
-	static InputHelper* static_instance;
 
 	enum KEY : const Uint8 {
 		down = 1

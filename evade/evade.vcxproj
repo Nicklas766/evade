@@ -167,6 +167,7 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="SpriteObject.h" />
     <ClInclude Include="TextureHelper.h" />
+    <ClInclude Include="SingletonWrapper.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="evade.cpp" />

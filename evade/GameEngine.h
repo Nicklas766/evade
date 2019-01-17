@@ -5,6 +5,7 @@
 #include <vector>
 #include "SDL.h"
 
+#include "SingletonWrapper.h"
 #include "TextureHelper.h"
 #include "SpriteObject.h"
 
@@ -14,24 +15,17 @@ using namespace std;
 // GameEngine by Nicklas Envall
 namespace CoolEngine {
 
-class GameEngine
+class GameEngine : public SingletonWrapper<GameEngine>
 {
 
 public:
-
-	// This makes the GameEngine a singleton
-	static GameEngine* getInstance()
-	{
-		if (static_instance != nullptr)
-		{
-			return static_instance;
-		}
-		static_instance = new GameEngine();
-		return static_instance;
-	}
+	friend SingletonWrapper<GameEngine>;
 
 	~GameEngine() {};
-	void cleanQuit();
+	void destroyAllInstances();
+	void clean();
+	void quit();
+
 
 	// Methods for setting up game
 	void setup(const char* title, int xpos, int ypos, int width, int height, bool fullscreen) throw(runtime_error);
@@ -39,17 +33,14 @@ public:
 	void add(SpriteObject* sprite, string texturePath);
 
 	// Methods during the game
+	void preBuiltPauseFeature();
 	void render();
 	SDL_Renderer* getRenderer() const { return renderer; }
 
 private:
 	// Not allowed to either copy or assign the GameEngine
 	GameEngine() {};
-	GameEngine(const GameEngine&) = delete;
-	const GameEngine& operator= (const GameEngine&) = delete;
-
-	static GameEngine* static_instance;
-
+	bool paused;
 	bool isGameRunning;
 	SDL_Window* window;
 	SDL_Renderer* renderer;

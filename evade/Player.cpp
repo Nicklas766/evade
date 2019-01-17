@@ -12,11 +12,9 @@ void Player::update() {
 
 	
 	if (xPos < 0)
-		cout << "my position is:" << xPos << endl;
 		xPos = xPos + 1;
 
 	if (xPos > 40)
-		cout << "my position is:" << xPos << endl;
 		xPos = xPos + 1;
 }
 

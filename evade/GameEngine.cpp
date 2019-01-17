@@ -4,9 +4,6 @@
 
 using namespace CoolEngine;
 
-GameEngine* GameEngine::static_instance = 0;
-
-
 void GameEngine::add(SpriteObject* sprite, string texturePath) 
 {
 	TextureHelper::getInstance()->loadTexture(texturePath, renderer, sprite->getId());
@@ -57,20 +54,7 @@ void GameEngine::run(int FPS) {
 
 
 		InputHelper::getInstance()->handleEvent();
-
-		// Pauses the game
-		if (InputHelper::getInstance()->isKeyDown(SDL_SCANCODE_ESCAPE))
-		{
-			bool paused = true;
-			while (paused) {
-				InputHelper::getInstance()->handleEvent();
-				if (InputHelper::getInstance()->isKeyDown(SDL_SCANCODE_RETURN))
-				{
-					paused = false;
-				}
-			}
-		}
-
+		preBuiltPauseFeature();
 		render();
 		
 		// SDL_Delay(2000);
@@ -78,6 +62,20 @@ void GameEngine::run(int FPS) {
 	}
 }
 
+void GameEngine::preBuiltPauseFeature() {
+	// Pauses the game
+	if (InputHelper::getInstance()->isKeyDown(SDL_SCANCODE_ESCAPE))
+	{
+		paused = true;
+		while (paused) {
+			InputHelper::getInstance()->handleEvent();
+			if (InputHelper::getInstance()->isKeyDown(SDL_SCANCODE_RETURN))
+			{
+				paused = false;
+			}
+		}
+	}
+}
 void GameEngine::render()
 {
 	SDL_RenderClear(renderer);
@@ -91,17 +89,29 @@ void GameEngine::render()
 	SDL_RenderPresent(renderer);
 }
 
+void GameEngine::destroyAllInstances() {
+	InputHelper::getInstance()->destroyInstance();
+	TextureHelper::getInstance()->destroyInstance();
+	SingletonWrapper::destroyInstance();
+}
 
-void GameEngine::cleanQuit()
-{
-	std::cout << "Stopping game loop ...\n";
-	isGameRunning = false;
-
-
+void GameEngine::clean() {
 	InputHelper::getInstance()->clean();
+	TextureHelper::getInstance()->clean();
 
 	std::cout << "Cleaning game ...\n";
 	SDL_DestroyWindow(window);
 	SDL_DestroyRenderer(renderer);
 	SDL_Quit();
+}
+
+
+
+
+void GameEngine::quit()
+{
+	std::cout << "Stopping game loop ...\n";
+	isGameRunning = false;
+	paused = false;
+	clean();
 }

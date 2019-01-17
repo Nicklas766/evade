@@ -3,8 +3,9 @@
 
 using namespace CoolEngine;
 
-TextureHelper* TextureHelper::staticInstance = 0;
+void TextureHelper::clean() {
 
+}
 
 bool TextureHelper::loadTexture(string fileName, SDL_Renderer* renderer, string id)
 {

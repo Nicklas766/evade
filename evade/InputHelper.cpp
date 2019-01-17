@@ -4,11 +4,11 @@
 
 using namespace CoolEngine;
 
-InputHelper* InputHelper::static_instance = 0;
-
 void InputHelper::clean() {
-	// delete keystates;
+	cout << "Clean inputhelper......." << endl;
+	delete keyboardState;
 }
+
 
 bool InputHelper::isKeyDown(SDL_Scancode key)
 {
@@ -33,7 +33,7 @@ void InputHelper::handleEvent()
 		{
 
 		case SDL_QUIT: 
-			GameEngine::getInstance()->cleanQuit(); 
+			GameEngine::getInstance()->quit(); 
 			break;
 
 		case SDL_KEYDOWN: 
