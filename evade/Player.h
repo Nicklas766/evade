@@ -17,7 +17,6 @@ public:
 private:
 	Player(string id, int xPos, int yPos, int width, int height) : SpriteObject(id, xPos, yPos, width, height) {};
 	~Player() { cout << "I can clean stuff here if needed" << endl; };
-
 };
 
 

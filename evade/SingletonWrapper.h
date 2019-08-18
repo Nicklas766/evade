@@ -1,6 +1,8 @@
 #ifndef SINGLETONWRAPPER_H
 #define SINGLETONWRAPPER_H
+
 #include <iostream>
+
 namespace CoolEngine {
 
 template <typename TYPE>

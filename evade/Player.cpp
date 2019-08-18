@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "Player.h"
-#include "Monster.h"
+#include "Wall.h"
+#include "Brick.h"
 
 Player* Player::getInstance(string id, int xPos, int yPos, int width, int height) {
 	return new Player(id, xPos, yPos, width, height);
@@ -12,22 +13,23 @@ void Player::update() {
 
 void Player::collided(bool collided, SpriteObject* other) {
 
-	if (collided) 
-		if (Monster* s = dynamic_cast<Monster*>(other)) {
-			if ((other->getStats().y + other->getStats().height) > yPos + height)
-				yPos = yPos + 5;
+	if (collided) { 
+		if (Wall* s = dynamic_cast<Wall*>(other)) {
+			Stats wallStats = other->getStats();
+			if ((wallStats.y + wallStats.height) > yPos + height)
+				yPos = yPos + wallStats.ySpeed;
 
-			if ((other->getStats().y + other->getStats().height) < yPos + height)
-				yPos = yPos - 5;
+			if ((wallStats.y + wallStats.height) < yPos + height)
+				yPos = yPos - wallStats.ySpeed;
 		}
-	
+	}
 }
 
 void Player::behaviour() {
-	if (InputHelper::getInstance()->isKeyDown(SDL_SCANCODE_RIGHT))	 { xPos = xPos + 5; }
-	if (InputHelper::getInstance()->isKeyDown(SDL_SCANCODE_LEFT))	 { xPos = xPos - 5; }
-	if (InputHelper::getInstance()->isKeyDown(SDL_SCANCODE_UP))		 { yPos = yPos - 5; }
-	if (InputHelper::getInstance()->isKeyDown(SDL_SCANCODE_DOWN))    { yPos = yPos + 5; }
+	if (InputHelper::getInstance()->isKeyDown(SDL_SCANCODE_RIGHT))	 { xPos = xPos + xSpeed; }
+	if (InputHelper::getInstance()->isKeyDown(SDL_SCANCODE_LEFT))	 { xPos = xPos - xSpeed; }
+	if (InputHelper::getInstance()->isKeyDown(SDL_SCANCODE_UP))		 { yPos = yPos - ySpeed; }
+	if (InputHelper::getInstance()->isKeyDown(SDL_SCANCODE_DOWN))    { yPos = yPos + ySpeed; }
 
 	// Left is down it will move with the mouse
 	if (InputHelper::getInstance()->getMouseBtnState()[LEFT]) {
@@ -35,7 +37,6 @@ void Player::behaviour() {
 		xPos = pos.x;
 		yPos = pos.y;
 	}
-
 }
 
 

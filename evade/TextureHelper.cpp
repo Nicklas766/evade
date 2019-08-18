@@ -11,6 +11,10 @@ TextureHelper::~TextureHelper() {
 
 };
 
+void TextureHelper::removeTexture(string id)
+{
+	textureCollection.erase(id);
+}
 
 bool TextureHelper::loadTexture(string fileName, SDL_Renderer* renderer, string id)
 {
@@ -50,7 +54,3 @@ void TextureHelper::draw(string id, int xPos, int yPos, int width, int height, S
 	SDL_RenderCopyEx(renderer, textureCollection[id], &srcRect, &destRect, 0, 0, flip);
 }
 
-void TextureHelper::removeTexture(string id)
-{
-	textureCollection.erase(id);
-}

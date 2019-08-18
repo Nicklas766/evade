@@ -5,7 +5,7 @@
 using namespace CoolEngine;
 
 GameEngine::~GameEngine() {
-	// Make sure all the sprite objects are cleaned
+	// Make sure all the sprite objects are deleted
 	for (SpriteObject* sprite : spriteObjects) {
 		cout << "CALLING CLEANING SPRITE" << endl << endl;
 		delete sprite;
@@ -15,21 +15,19 @@ GameEngine::~GameEngine() {
 
 void GameEngine::add(SpriteObject* sprite, string texturePath) 
 {
-	TextureHelper::getInstance()->loadTexture(texturePath, renderer, sprite->getId());
 	spriteObjects.push_back(sprite);
+	TextureHelper::getInstance()->loadTexture(texturePath, renderer, sprite->getId());
 }
 
 // Really bad removal code with vector, will mark the Sprite to be removed before update
 void GameEngine::remove(string textureId)
 {
-	for (int i = 0; i < spriteObjects.size(); i++) {
+	for (int i = 0; i < (int)spriteObjects.size(); i++) {
 		if (spriteObjects[i]->getId() == textureId) {
 			// delete sprite and remove from vector
 			spriteObjects[i]->shouldBeRemoved = true;
 		}
 	}
-	
-	
 }
 
 // Init the game
@@ -52,7 +50,7 @@ void GameEngine::setup(const char* title, int xPos, int yPos, int width, int hei
 	renderer = SDL_CreateRenderer(window, -1, 0);
 
 	(renderer == 0) ? throw runtime_error("CONCERNS RENDERER: Initialisation failed") : 1;
-	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+	SDL_SetRenderDrawColor(renderer, 255, 165, 0, 255);
 
 }
 
@@ -60,16 +58,16 @@ void GameEngine::run(int FPS) {
 	isGameRunning = true;
 
 	// Fixed frames per second
-	Uint32 frameStart, frameTime;
+	Uint32 frameBegin, frameTime;
 	const float DELAY_TIME = 1000.0f / FPS;
 
 	while (isGameRunning) {
 
-		frameStart = SDL_GetTicks();
+		frameBegin = SDL_GetTicks();
 
-		frameTime = SDL_GetTicks() - frameStart;
+		frameTime = SDL_GetTicks() - frameBegin;
 
-		if (frameTime < DELAY_TIME)
+		if (DELAY_TIME > frameTime)
 		{
 			SDL_Delay((int)(DELAY_TIME - frameTime));
 		}
@@ -83,7 +81,6 @@ void GameEngine::run(int FPS) {
 // A simple collision detection
 bool GameEngine::isCollided(SpriteObject* sprite1, SpriteObject* sprite2)
 {
-
 	Stats pos1 = sprite1->getStats();
 	Stats pos2 = sprite2->getStats();
 
@@ -93,7 +90,6 @@ bool GameEngine::isCollided(SpriteObject* sprite1, SpriteObject* sprite2)
 		pos1.height + pos1.y > pos2.y) {
 		return true;
 	}
-
 
 	return false;
 }
@@ -109,7 +105,6 @@ void GameEngine::garbageCollect() {
 		}
 		count++;
 	}
-
 }
 
 void GameEngine::render()
@@ -127,7 +122,6 @@ void GameEngine::render()
 		sprite->update();
 		sprite->draw(renderer);
 	}
-
 
 	SDL_RenderPresent(renderer);
 }
@@ -157,5 +151,4 @@ void GameEngine::quit()
 {
 	std::cout << "Stopping game loop ...\n";
 	isGameRunning = false;
-	paused = false;
 }

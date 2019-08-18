@@ -1,15 +1,14 @@
 #ifndef INPUTHELPER_H
 #define INPUTHELPER_H
+
 #include <SDL.h>
-#include <iostream>
 #include <vector>
 #include "SingletonWrapper.h"
 
 namespace CoolEngine { 
 
-struct Position {
-	int x, y;
-};
+// Before class declaration, they are used to make more readable code
+struct Position { int x, y; };
 
 enum mouseButton : const int
 {
@@ -18,9 +17,7 @@ enum mouseButton : const int
 	RIGHT = 2
 };
 
-enum KEY : const Uint8 {
-	down = 1
-};
+enum KEY : const Uint8 { down = 1 };
 
 
 class InputHelper : public SingletonWrapper<InputHelper>
@@ -28,11 +25,12 @@ class InputHelper : public SingletonWrapper<InputHelper>
 public:
 	friend SingletonWrapper<InputHelper>;
 
-	bool isKeyDown(SDL_Scancode key);
 	void handleEvent();
-	
-	Position getMousePosition() { return mousePosition;  }
+
+	bool isKeyDown(SDL_Scancode key);
 	std::vector<bool> getMouseBtnState() { return mouseBtnState; }
+	Position getMousePosition() { return mousePosition;  }
+	
 
 private:
 	InputHelper();
@@ -40,14 +38,12 @@ private:
 
 	// KEYBOARD
 	void getKeyboardState();
-	// not deleted since no "new" used to allocate memory
-	const Uint8* keyboardState;
-
+	const Uint8* keyboardState; // not deleted since no "new" used to allocate memory
 
 	// MOUSE
-	void resetMouseBthState();
 	std::vector<bool> mouseBtnState;
 	Position mousePosition;
+	void resetMouseBthState();
 	void onMouseMove(const SDL_Event& event);
 	void onMouseButtonClickOrRelease(SDL_Event & event);
 };

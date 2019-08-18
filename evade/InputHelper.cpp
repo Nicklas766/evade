@@ -66,7 +66,7 @@ void InputHelper::handleEvent()
 	}
 }
 
-// Mushantering för tillämpningsprogrammeraren, eftersom det stod i kravet
+// Mouse handling
 void InputHelper::resetMouseBthState()
 {
 	mouseBtnState = vector<bool>(3, false);
